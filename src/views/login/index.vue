@@ -12,7 +12,9 @@
         <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onLogin" class="login-btn">登录</el-button>
+        <el-button type="primary" @click="onLogin"
+        :loading="onLoading"
+        class="login-btn">登录</el-button>
   </el-form-item>
 </el-form>
   </div>
@@ -30,7 +32,9 @@ export default {
         mobile: '',
         code: ''
       },
-      checked: false
+      checked: false,
+      onLoading: false
+      // 让这个变量控制状态而不是写死
     }
   },
   computed: {},
@@ -40,16 +44,28 @@ export default {
   methods: {
     onLogin () {
       // 获取表单数据（根据接口要求绑定数据）
+      // 表单验证
+      // 验证通过，提交登录
       const user = this.user
+      // 开启登陆中 loading...
 
+      this.onLoading = true
       request({
         method: 'POST',
         url: '/mp/v1_0/authorizations',
         data: user
       }).then((result) => {
         console.log(result)
+        this.$message({
+          message: '登录成功',
+          type: 'success'
+        })
+        // 关闭loading
+        this.onLoading = false
       }).catch((err) => {
         console.log('登录失败', err)
+        this.$message.error('登录失败，手机号或验证码错误')
+        this.onLoading = false
       })
     }
   }
