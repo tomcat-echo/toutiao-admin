@@ -1,15 +1,15 @@
 <template>
   <div class="login-container">
-    <el-form ref="user" :model="user" class="login-form">
+    <el-form ref="login-form" :model="user" :rules='rules' class="login-form">
       <el-form-item class="login-logo"></el-form-item>
-      <el-form-item>
+      <el-form-item   prop='mobile'>
         <el-input v-model="user.mobile" placeholder="请输入手机号"></el-input>
       </el-form-item>
-      <el-form-item >
+      <el-form-item    prop='code'>
         <el-input v-model="user.code" placeholder="请输入验证码"></el-input>
       </el-form-item>
-      <el-form-item >
-        <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
+      <el-form-item prop='agree'>
+        <el-checkbox v-model="user.agree" >我已阅读并同意用户协议和隐私条款</el-checkbox>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onLogin"
@@ -30,11 +30,37 @@ export default {
     return {
       user: {
         mobile: '',
-        code: ''
+        code: '',
+        agree: false
       },
       checked: false,
-      onLoading: false
+      onLoading: false,
       // 让这个变量控制状态而不是写死
+      rules: {
+        // 表单验证规则配置
+        // 要验证的数据名称：规则列表[]
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'change' },
+          { pattern: /^1[3|5|7|8|9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式' }
+        ],
+        agree: [
+          {
+            validator: (rule, value, callback) => {
+              // value是agree的值
+              if (value) {
+                return callback()
+              } else {
+                callback(new Error('请勾选同意协议'))
+              }
+            },
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   computed: {},
@@ -45,15 +71,23 @@ export default {
     onLogin () {
       // 获取表单数据（根据接口要求绑定数据）
       // 表单验证
-      // 验证通过，提交登录
-      const user = this.user
+      this.$refs['login-form'].validate((valid) => {
+        if (!valid) {
+          // 验证没有通过就不执行登录操作，并进行验证提示
+          return
+        }
+        // 验证通过进行登录
+        this.login()
+      })
+    },
+    login () {
       // 开启登陆中 loading...
 
       this.onLoading = true
       request({
         method: 'POST',
         url: '/mp/v1_0/authorizations',
-        data: user
+        data: this.user
       }).then((result) => {
         console.log(result)
         this.$message({
@@ -68,6 +102,7 @@ export default {
         this.onLoading = false
       })
     }
+
   }
 }
 </script>
