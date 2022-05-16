@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import request from '@/utlis/request.js'
+// import request from '@/utlis/request.js'
+import { login } from '@/api/user'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -29,8 +30,8 @@ export default {
   data () {
     return {
       user: {
-        mobile: '',
-        code: '',
+        mobile: '13911111111',
+        code: '246810',
         agree: false
       },
       checked: false,
@@ -84,11 +85,7 @@ export default {
       // 开启登陆中 loading...
 
       this.onLoading = true
-      request({
-        method: 'POST',
-        url: '/mp/v1_0/authorizations',
-        data: this.user
-      }).then((result) => {
+      login(this.user).then((result) => {
         console.log(result)
         this.$message({
           message: '登录成功',
@@ -96,6 +93,11 @@ export default {
         })
         // 关闭loading
         this.onLoading = false
+
+        // 跳转到首页
+        this.$router.push({
+          name: 'home'
+        })
       }).catch((err) => {
         console.log('登录失败', err)
         this.$message.error('登录失败，手机号或验证码错误')
