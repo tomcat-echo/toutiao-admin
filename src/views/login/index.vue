@@ -86,7 +86,6 @@ export default {
 
       this.onLoading = true
       login(this.user).then((result) => {
-        console.log(result)
         this.$message({
           message: '登录成功',
           type: 'success'
@@ -94,9 +93,11 @@ export default {
         // 关闭loading
         this.onLoading = false
 
+        // 将用户信息由对象转换成JOSN可识别的字符串，存储到本地
+        window.localStorage.setItem('user', JSON.stringify(result.data.data))
         // 跳转到首页
         this.$router.push({
-          name: 'home'
+          name: 'Home'
         })
       }).catch((err) => {
         console.log('登录失败', err)

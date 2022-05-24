@@ -5,6 +5,7 @@
       background-color="#a1c4fd"
       text-color="#fdfcfa"
       active-text-color="#888BD6"
+      :collapse="isCollapse"
       router
       >
 <!-- default-active="/" 默认首页被激活 -->
@@ -46,13 +47,20 @@ export default {
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      isCollapse: false
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    // 接收header的isCollpse状态，（isCollapse是header传值的方法名）
+    this.$bus.$on('isCollapse', data => {
+      this.isCollapse = data
+    })
+  },
   mounted () {},
-  methods: {}
+  methods: { }
 }
 </script>
 
@@ -60,13 +68,14 @@ export default {
 .nav-menu {
 
   span{
+    margin:0 20px;
     font-size: 18px;
   }
   i{
     font-size: 20px;
   }
   .iconfont {
-    margin-right: 5px;
+    // margin-right: 20px;
     font-size: 25px;
   }
   .icon-publish,.icon-mine_fans{

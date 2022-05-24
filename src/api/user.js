@@ -12,12 +12,13 @@ export const login = (data) => {
 
 // 获取用户信息
 export const getUserProfile = () => {
+  // 这里用的是对象，所以要先将JSON字符串转化成对象
   return request({
     method: 'GET',
-    url: '/mp/v1_0/user/profile',
+    url: '/mp/v1_0/user/profile'
     // 后端需要得到token授权，axios可通过hearder的设置
-    headers: {
-      Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODQ2NzA5NjYsInVzZXJfaWQiOjEsInJlZnJlc2giOmZhbHNlLCJ2ZXJpZmllZCI6dHJ1ZX0.WhOKFeTQbM_-4iU752xZESeww97r_cy5Cky9SCwHpy8'
-    }
+    // headers: {
+    //   Authorization: `Bearer ${user.token}`
+    // }
   })
 }

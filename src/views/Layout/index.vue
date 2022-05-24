@@ -1,11 +1,14 @@
 <template>
 <el-container   class="layout-container">
-  <el-aside class="aside" width="230px">
-    <app-aside class="aside-menu"  />
+  <el-aside  class="aside" width="auto">
+    <app-aside class="aside-menu"
+    />
   </el-aside>
   <el-container>
     <el-header class="header">
-      <app-header :userProfile="user"></app-header>
+      <app-header
+      :userProfile="user"
+      ></app-header>
     </el-header>
     <el-main class="main">
       <router-view />
@@ -29,11 +32,13 @@ export default {
   props: {},
   data () {
     return {
-      user: {}
+      user: {},
+      isCollapse: false
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   created () {
     this.loadUserProfile()
   },
@@ -56,14 +61,11 @@ export default {
   top: 0;
   bottom: 0;
 }
-.aside{
-  background-color: #d3dce6;
-  .aside-menu{
-    height: 100%;
-       // 撑满侧边栏
-  }
-}
 
+.aside-menu{
+  height: 100%;
+       // 撑满侧边栏
+}
 .header {
   background-color: #e7f0fd;
 }
