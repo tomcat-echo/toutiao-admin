@@ -1,4 +1,4 @@
-import request from '@/utlis/request'
+import request from '@/utils/request'
 
 // 用户登录信息
 export const login = (data) => {
