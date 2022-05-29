@@ -10,16 +10,16 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/Login'
+    redirect: '/login'
   },
   {
-    path: '/Login',
+    path: '/login',
     name: 'Login',
     component: () => import('@/views/login')
     // 路由懒加载
   },
   {
-    path: '/Layout',
+    path: '/layout',
     // name: 'layout',
     // 由于有默认子路由，这里的name就没有了意义，因此去掉name
     component: () => import('@/views/Layout'),
@@ -31,9 +31,14 @@ const routes = [
         component: () => import('@/views/home')
       },
       {
-        path: '/Article',
+        path: '/article',
         name: 'Article',
         component: () => import('@/views/article')
+      },
+      {
+        path: '/publish',
+        name: 'Publish',
+        component: () => import('@/views/publish')
       }
     ]
   }

@@ -136,16 +136,6 @@ export default {
   props: {},
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        value1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
       // 文章数据列表
       articles: [],
       articleStatus: [
@@ -208,7 +198,6 @@ export default {
     loadChannels () {
       getArticlesChannels().then(res => {
         this.channels = res.data.data.channels
-        console.log(res)
       })
     },
     // 删除文章

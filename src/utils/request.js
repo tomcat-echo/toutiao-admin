@@ -17,7 +17,6 @@ const request = axios.create({
     // 所以我们使用 try-catch 来捕获异常，处理异常的发生
     try {
       // 如果转换成功，则直接把结果返回
-      console.log(JSONbig.parse(data).toString)
       return JSONbig.parse(data)
     } catch (err) {
       console.log('转换失败', err)
